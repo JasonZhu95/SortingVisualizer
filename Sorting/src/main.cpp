@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include "sort_type.h"
 
 //Global Variables
 const unsigned int SCREEN_WIDTH = 1024;
@@ -89,10 +90,10 @@ void draw(int x, int y)
 		else
 			glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_POLYGON);
-			glVertex2f(2 + i * (2 + quadSize), 0);
-			glVertex2f(2 + i * (2 + quadSize), arrayElements[i]);
-			glVertex2f(2 + i * (2 + quadSize) + quadSize, arrayElements[i]);
-			glVertex2f(2 + i * (2 + quadSize) + quadSize, 0);
+		glVertex2f(2 + i * (2 + quadSize), 0);
+		glVertex2f(2 + i * (2 + quadSize), arrayElements[i]);
+		glVertex2f(2 + i * (2 + quadSize) + quadSize, arrayElements[i]);
+		glVertex2f(2 + i * (2 + quadSize) + quadSize, 0);
 		glEnd();
 	}
 	displayInfo();
@@ -111,4 +112,3 @@ void generate()
 	}
 	draw(-1, -1);
 }
-

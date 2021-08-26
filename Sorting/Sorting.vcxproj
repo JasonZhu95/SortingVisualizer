@@ -176,6 +176,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sort_type.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\sort_type.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
