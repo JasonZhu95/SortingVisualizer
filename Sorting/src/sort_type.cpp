@@ -70,11 +70,11 @@ void insertionSort()
 int partition(int l, int r)
 {
 	int pivot = arrayElements[r];
-	int i = l - 1;
-	for (int j = i; j <= r - 1; j++)
+	int i = (l - 1);
+	for (int j = l; j <= r - 1; j++)
 	{
 		draw(i, j);
-		if (arrayElements[i] < pivot)
+		if (arrayElements[j] < pivot)
 		{
 			i++;
 			swap(&arrayElements[i], &arrayElements[j]);
@@ -94,6 +94,7 @@ void quickSort(int l, int r)
 	if (l < r)
 	{
 		int p = partition(l, r);
+		isSorted[p] = true;
 		Sleep(sTime);
 		draw(-1, 1);
 		quickSort(l, p - 1);
@@ -107,7 +108,7 @@ void quickSort(int l, int r)
 
 void merge(int l, int m, int r)
 {
-	int leftEnd = m - 1 + 1;
+	int leftEnd = m - l + 1;
 	int rightStart = r - m;
 	std::vector<float> L(leftEnd), R(rightStart);
 
@@ -143,12 +144,13 @@ void merge(int l, int m, int r)
 
 void mergeSort(int l, int r)
 {
-	if (l >= r)
+	if (l >= r) {
 		return;
-	int mid = (l + r) / 2;
-	mergeSort(l, mid);
-	mergeSort(mid + 1, r);
-	merge(l, mid, r);
+	}
+	int m = l + (r - l) / 2;
+	mergeSort(l, m);
+	mergeSort(m + 1, r);
+	merge(l, m, r);
 }
 
 //void countingSort()

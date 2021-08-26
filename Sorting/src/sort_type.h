@@ -8,7 +8,6 @@ extern const unsigned int SCREEN_WIDTH;
 extern const unsigned int SCREEN_HEIGHT;
 extern std::vector<float> arrayElements;
 extern std::vector<bool> isSorted;
-// DELETE: Temp Values
 extern int numElements;
 extern int sTime;
 extern void draw(int x, int y);

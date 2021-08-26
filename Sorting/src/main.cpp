@@ -10,7 +10,6 @@ const unsigned int SCREEN_WIDTH = 1024;
 const unsigned int SCREEN_HEIGHT = 768;
 std::vector<float> arrayElements;
 std::vector<bool> isSorted;
-// DELETE: Temp Values
 int numElements = 10;
 int sTime = 50;
 
@@ -31,6 +30,9 @@ void displayInfo();
 
 void menuFunc(int id);
 void createMenu();
+
+// Clear Window
+void clear();
 
 int main(int argc, char** argv)
 {
@@ -72,7 +74,7 @@ void displayText(std::string textToDraw, int x, int y)
 
 void displayInfo()
 {
-	glColor3f(1, 1, 1);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	std::string s = "Elements = " + std::to_string(numElements);
 	displayText(s, 5, 0.95 * SCREEN_HEIGHT);
 	s = "Time = " + std::to_string(sTime) + " milliseconds/operation";
@@ -81,7 +83,7 @@ void displayInfo()
 
 void displayTotalTime(int diff, std::string algorithm)
 {
-	glColor3f(1, 1, 1);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	std::string s = "Time taken for " + algorithm + " = " + std::to_string(diff) + " milliseconds";
 	displayText(s, 5, 0.85 * SCREEN_HEIGHT);
 	glFlush();
@@ -112,9 +114,9 @@ void draw(int x, int y)
 
 void generate()
 {
-	srand(time(NULL));
 	isSorted.clear();
 	arrayElements.clear();
+	srand(time(NULL));
 	for (int i = 0; i < numElements; i++)
 	{
 		arrayElements.push_back(((float)rand() / RAND_MAX) * SCREEN_HEIGHT * 0.8);
@@ -123,36 +125,45 @@ void generate()
 	draw(-1, -1);
 }
 
+void clear()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glBegin(0);
+	glEnd();
+	glFlush();
+}
+
 void menuFunc(int id)
 {
 	switch (id)
 	{
-		case 11: numElements = 10; generate(); break;
-		case 12: numElements = 20; generate(); break;
-		case 13: numElements = 50; generate(); break;
-		case 14: numElements = 100; generate(); break;
-		case 15: numElements = 200; generate(); break;
-		case 21: {
-			auto start = std::chrono::system_clock::now();
-			bubbleSort();
-			auto stop = std::chrono::system_clock::now();
-			auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-			displayTotalTime(diff.count(), "BubbleSort");
-		} break;
-		case 22: {
-			auto start = std::chrono::system_clock::now();
-			mergeSort(0, numElements - 1);
-			auto stop = std::chrono::system_clock::now();
-			auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-			displayTotalTime(diff.count(), "BubbleSort");
-		} break;
-		case 23: {
-			auto start = std::chrono::system_clock::now();
-			quickSort(0, numElements - 1);
-			auto stop = std::chrono::system_clock::now();
-			auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-			displayTotalTime(diff.count(), "BubbleSort");
-		} break;
+	case 11: numElements = 10; generate(); break;
+	case 12: numElements = 20; generate(); break;
+	case 13: numElements = 50; generate(); break;
+	case 14: numElements = 100; generate(); break;
+	case 15: numElements = 200; generate(); break;
+
+	case 21: {
+		auto start = std::chrono::system_clock::now();
+		bubbleSort();
+		auto stop = std::chrono::system_clock::now();
+		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+		displayTotalTime(diff.count(), "BubbleSort");
+	} break;
+	case 22: {
+		auto start = std::chrono::system_clock::now();
+		mergeSort(0, numElements - 1);
+		auto stop = std::chrono::system_clock::now();
+		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+		displayTotalTime(diff.count(), "MergeSort");
+	} break;
+	case 23: {
+		auto start = std::chrono::system_clock::now();
+		quickSort(0, numElements - 1);
+		auto stop = std::chrono::system_clock::now();
+		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+		displayTotalTime(diff.count(), "QuickSort");
+	} break;
 		//case 24: {
 		//	auto start = system_clock::now();
 		//	bubbleSort();
@@ -167,12 +178,13 @@ void menuFunc(int id)
 		//	auto diff = duration_cast<milliseconds>(stop - start);
 		//	displayTotalTime(diff.count(), "BubbleSort");
 		//} break;
-		case 31: sTime = 5; draw(-1, -1); break;
-		case 32: sTime = 20; draw(-1, -1); break;
-		case 33: sTime = 50; draw(-1, -1); break;
-		case 34: sTime = 100; draw(-1, -1); break;
-		case 35: sTime = 500; draw(-1, -1); break;
-		case 4:exit(0);
+
+	case 31: sTime = 5; draw(-1, -1); break;
+	case 32: sTime = 20; draw(-1, -1); break;
+	case 33: sTime = 50; draw(-1, -1); break;
+	case 34: sTime = 100; draw(-1, -1); break;
+	case 35: sTime = 500; draw(-1, -1); break;
+	case 4:exit(0);
 	}
 }
 
@@ -184,6 +196,11 @@ void createMenu() {
 	glutAddMenuEntry("100 Numbers", 14);
 	glutAddMenuEntry("200 Numbers", 15);
 
+	int s2 = glutCreateMenu(menuFunc);
+	glutAddMenuEntry("BubbleSort", 21);
+	glutAddMenuEntry("MergeSort", 22);
+	glutAddMenuEntry("QuickSort", 23);
+
 	int s3 = glutCreateMenu(menuFunc);
 	glutAddMenuEntry("5", 31);
 	glutAddMenuEntry("20", 32);
@@ -191,15 +208,10 @@ void createMenu() {
 	glutAddMenuEntry("100", 34);
 	glutAddMenuEntry("500", 35);
 
-	int s2 = glutCreateMenu(menuFunc);
-	glutAddMenuEntry("BubbleSort", 21);
-	glutAddMenuEntry("MergeSort", 22);
-	glutAddMenuEntry("QuickSort", 23);
-
 	glutCreateMenu(menuFunc);
 	glutAddSubMenu("Randomize", s1);
-	glutAddSubMenu("Speed(Time/oper)", s3);
 	glutAddSubMenu("Sort", s2);
+	glutAddSubMenu("Speed", s3);
 	glutAddMenuEntry("Exit", 4);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
