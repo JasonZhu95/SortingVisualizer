@@ -1,2 +1,2 @@
 # SortingVisualizer
-Project to create a sorting algorithm visualizer
+Visualizing Sorting Algorithms, using legacy OpenGL for demo purposes.
