@@ -1,8 +1,9 @@
 #include<windows.h>
+#include <string>
 #include<GL/glut.h>
 
-const unsigned int SCREEN_WIDTH = 600;
-const unsigned int SCREEN_HEIGHT = 600;
+const unsigned int SCREEN_WIDTH = 1024;
+const unsigned int SCREEN_HEIGHT = 768;
 
 // Function Prototypes
 // ----------------------------------------------------------------------------
@@ -10,6 +11,14 @@ const unsigned int SCREEN_HEIGHT = 600;
 // Render window
 void display();
 void init();
+
+// Render to screen
+void draw();
+void generate();
+
+// Text On Screen
+void displayText(std::string textToDraw, int x, int y);
+void displayInfo();
 
 int main(int argc, char** argv)
 {
@@ -34,32 +43,12 @@ int main(int argc, char** argv)
 	//Call "display" function
 	glutDisplayFunc(display);
 
-	CreateMenu();
-
 	//Enter the GLUT event loop
 	glutMainLoop();
 
 	return 0;
 }
 
-void display()
-{
-	//Clear all pixels
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	//draw white polygon (rectangle) with corners at
-	// (0.25, 0.25, 0.0) and (0.75, 0.75, 0.0)
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_POLYGON);
-	glVertex3f(0.25, 0.25, 0.0);
-	glVertex3f(0.75, 0.25, 0.0);
-	glVertex3f(0.75, 0.75, 0.0);
-	glVertex3f(0.25, 0.75, 0.0);
-	glEnd();
-
-	// Don't wait start processing buffered OpenGL routines
-	glFlush();
-}
 void init()
 {
 	//select clearing (background) color
@@ -68,5 +57,43 @@ void init()
 	//initialize viewing values 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+	gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void display()
+{
+	glClearColor(0, 0, 0, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	generate();
+}
+
+void displayText(std::string textToDraw, int x, int y)
+{
+	glRasterPos2f(x, y);
+	for (int i = 0; i < textToDraw.size(); i++)
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, textToDraw[i]);
+}
+
+void displayInfo()
+{
+	glColor3f(1.0f, 1.0f, 1.0f);
+	// DELETE: Placeholder text
+	std::string values = "Bubble Sort - xx comparisons, xx array access, 0.5 ms delay";
+	displayText(values, 5, 0.97 * SCREEN_HEIGHT);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	std::string timeTaken = "Total Time: 500 milliseconds";
+	displayText(timeTaken, 5, 0.94 * SCREEN_HEIGHT);
+}
+
+void draw()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	displayInfo();
+	glFlush();
+}
+
+void generate()
+{
+	draw();
 }
