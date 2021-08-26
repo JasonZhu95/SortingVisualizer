@@ -47,13 +47,14 @@ void selectionSort()
 			}
 		}
 		swap(&arrayElements[min_index], &arrayElements[i]);
+
 	}
 }
 
 void insertionSort()
 {
 	int i, j, key;
-	for (int i = 1; i < numElements; i++)
+	for (i = 1; i < numElements; i++)
 	{
 		key = arrayElements[i];
 		j = i - 1;
@@ -104,9 +105,50 @@ void quickSort(int l, int r)
 	}
 }
 
-void mergeSort()
+void merge(int l, int m, int r)
 {
+	int leftEnd = m - 1 + 1;
+	int rightStart = r - m;
+	std::vector<float> L(leftEnd), R(rightStart);
 
+	for (int i = 0; i < leftEnd; i++)
+		L[i] = arrayElements[l + i];
+	for (int j = 0; j < rightStart; j++)
+		R[j] = arrayElements[m + 1 + j];
+	int i = 0, j = 0, k = l;
+
+	while (i < leftEnd && j < rightStart)
+	{
+		if (L[i] <= R[j])
+			arrayElements[k] = L[i++];
+		else
+			arrayElements[k] = R[j++];
+		isSorted[k++] = true;
+		Sleep(sTime);
+		draw(-1, -1);
+	}
+	while (i < leftEnd) {
+		arrayElements[k] = L[i++];
+		isSorted[k++] = true;
+		Sleep(sTime);
+		draw(-1, -1);
+	}
+	while (j < rightStart) {
+		arrayElements[k] = R[j++];
+		isSorted[k++] = true;
+		Sleep(sTime);
+		draw(-1, -1);
+	}
+}
+
+void mergeSort(int l, int r)
+{
+	if (l >= r)
+		return;
+	int mid = (l + r) / 2;
+	mergeSort(l, mid);
+	mergeSort(mid + 1, r);
+	merge(l, mid, r);
 }
 
 //void countingSort()
