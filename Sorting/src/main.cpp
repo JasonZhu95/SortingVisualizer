@@ -1,9 +1,17 @@
-#include<windows.h>
+#include <windows.h>
+#include <GL/glut.h>
 #include <string>
-#include<GL/glut.h>
+#include <vector>
+#include <chrono>
 
+//Global Variables
 const unsigned int SCREEN_WIDTH = 1024;
 const unsigned int SCREEN_HEIGHT = 768;
+std::vector<float> arrayElements;
+std::vector<bool> isSorted;
+// DELETE: Temp Values
+int numElements = 10;
+int sTime = 50;
 
 // Function Prototypes
 // ----------------------------------------------------------------------------
@@ -13,7 +21,7 @@ void display();
 void init();
 
 // Render to screen
-void draw();
+void draw(int x, int y);
 void generate();
 
 // Text On Screen
@@ -22,28 +30,13 @@ void displayInfo();
 
 int main(int argc, char** argv)
 {
-	//Initialise GLUT with command-line parameters. 
 	glutInit(&argc, argv);
-
-	//Set Display Mode
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-
-	//Set the window size
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	//Set the window position
 	glutInitWindowPosition(100, 100);
-
-	//Create the window
 	glutCreateWindow("Sorting Algorithm Visualizer");
-
-	//Call init (initialize GLUT)
 	init();
-
-	//Call "display" function
 	glutDisplayFunc(display);
-
-	//Enter the GLUT event loop
 	glutMainLoop();
 
 	return 0;
@@ -51,10 +44,7 @@ int main(int argc, char** argv)
 
 void init()
 {
-	//select clearing (background) color
 	glClearColor(0.0, 0.0, 0.0, 0.0);
-
-	//initialize viewing values 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
@@ -63,7 +53,7 @@ void init()
 
 void display()
 {
-	glClearColor(0, 0, 0, 1);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	generate();
 }
@@ -86,14 +76,39 @@ void displayInfo()
 	displayText(timeTaken, 5, 0.94 * SCREEN_HEIGHT);
 }
 
-void draw()
+void draw(int x, int y)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	float quadSize = (SCREEN_WIDTH - 2 * (numElements + 1.0)) / numElements;
+	for (int i = 0; i < numElements; i++)
+	{
+		if (i == x || i == y)
+			glColor3f(1.0f, 0.0f, 0.0f);
+		else if (isSorted[i])
+			glColor3f(0.0f, 1.0f, 0.0f);
+		else
+			glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_POLYGON);
+			glVertex2f(2 + i * (2 + quadSize), 0);
+			glVertex2f(2 + i * (2 + quadSize), arrayElements[i]);
+			glVertex2f(2 + i * (2 + quadSize) + quadSize, arrayElements[i]);
+			glVertex2f(2 + i * (2 + quadSize) + quadSize, 0);
+		glEnd();
+	}
 	displayInfo();
 	glFlush();
 }
 
 void generate()
 {
-	draw();
+	srand(time(NULL));
+	isSorted.clear();
+	arrayElements.clear();
+	for (int i = 0; i < numElements; i++)
+	{
+		arrayElements.push_back(((float)rand() / RAND_MAX) * SCREEN_HEIGHT * 0.8);
+		isSorted.push_back(false);
+	}
+	draw(-1, -1);
 }
+
