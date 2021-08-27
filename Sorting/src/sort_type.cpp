@@ -41,17 +41,18 @@ void selectionSort()
 		min_index = i;
 		for (j = i + 1; j < numElements; j++)
 		{
-			Sleep(sTime);
 			draw(min_index, j);
 			if (arrayElements[j] < arrayElements[min_index])
 			{
 				min_index = j;
 			}
+			Sleep(sTime);
 		}
 		swap(&arrayElements[min_index], &arrayElements[i]);
 		isSorted[i] = true;
 		draw(-1, -1);
 	}
+	Sleep(sTime);
 	isSorted[numElements - 1] = true;
 	draw(-1, -1);
 }
@@ -59,16 +60,27 @@ void selectionSort()
 void insertionSort()
 {
 	int i, j, key;
+	isSorted[0] = true;
+	draw(-1, -1);
 	for (i = 1; i < numElements; i++)
 	{
 		key = arrayElements[i];
 		j = i - 1;
-		while (j >= 0 && arrayElements[i] > key)
+		Sleep(sTime);
+		draw(i, j);
+		while (j >= 0 && arrayElements[j] > key)
 		{
+			draw(j + 1, j);
 			arrayElements[j + 1] = arrayElements[j];
+			arrayElements[j] = key;
+			Sleep(sTime);
+			draw(j + 1, j);
 			j = j - 1;
+			isSorted[i] = true;
+			draw(-1, -1);
 		}
-		arrayElements[j + 1] = key;
+		isSorted[i] = true;
+		draw(-1, -1);
 	}
 }
 
@@ -157,18 +169,3 @@ void mergeSort(int l, int r)
 	mergeSort(m + 1, r);
 	merge(l, m, r);
 }
-
-//void countingSort()
-//{
-//
-//}
-//
-//void radixSort()
-//{
-//
-//}
-//
-//void bucketSort()
-//{
-//
-//}

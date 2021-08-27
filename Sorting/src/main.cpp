@@ -141,48 +141,50 @@ void menuFunc(int id)
 	case 13: numElements = 50; generate(); break;
 	case 14: numElements = 100; generate(); break;
 	case 15: numElements = 200; generate(); break;
+	case 16: numElements = 500; generate(); break;
+	case 17: numElements = 1000; generate(); break;
 
-	case 21: {
+	case 21: sTime = 10; draw(-1, -1); break;
+	case 22: sTime = 20; draw(-1, -1); break;
+	case 23: sTime = 50; draw(-1, -1); break;
+	case 24: sTime = 100; draw(-1, -1); break;
+	case 25: sTime = 1000; draw(-1, -1); break;
+
+	case 31: {
 		auto start = std::chrono::system_clock::now();
 		bubbleSort();
 		auto stop = std::chrono::system_clock::now();
 		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 		displayTotalTime(diff.count(), "BubbleSort");
 	} break;
-	case 22: {
+	case 32: {
 		auto start = std::chrono::system_clock::now();
 		mergeSort(0, numElements - 1);
 		auto stop = std::chrono::system_clock::now();
 		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 		displayTotalTime(diff.count(), "MergeSort");
 	} break;
-	case 23: {
+	case 33: {
 		auto start = std::chrono::system_clock::now();
 		quickSort(0, numElements - 1);
 		auto stop = std::chrono::system_clock::now();
 		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 		displayTotalTime(diff.count(), "QuickSort");
 	} break;
-	case 24: {
+	case 34: {
 		auto start = std::chrono::system_clock::now();
 		selectionSort();
 		auto stop = std::chrono::system_clock::now();
 		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 		displayTotalTime(diff.count(), "SelectionSort");
 	} break;
-		//case 25: {
-		//	auto start = system_clock::now();
-		//	bubbleSort();
-		//	auto stop = system_clock::now();
-		//	auto diff = duration_cast<milliseconds>(stop - start);
-		//	displayTotalTime(diff.count(), "BubbleSort");
-		//} break;
-
-	case 31: sTime = 5; draw(-1, -1); break;
-	case 32: sTime = 20; draw(-1, -1); break;
-	case 33: sTime = 50; draw(-1, -1); break;
-	case 34: sTime = 100; draw(-1, -1); break;
-	case 35: sTime = 500; draw(-1, -1); break;
+	case 35: {
+		auto start = std::chrono::system_clock::now();
+		insertionSort();
+		auto stop = std::chrono::system_clock::now();
+		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+		displayTotalTime(diff.count(), "InsertionSort");
+	} break;
 	case 4:exit(0);
 	}
 }
@@ -194,24 +196,27 @@ void createMenu() {
 	glutAddMenuEntry("50 Numbers", 13);
 	glutAddMenuEntry("100 Numbers", 14);
 	glutAddMenuEntry("200 Numbers", 15);
+	glutAddMenuEntry("500 Numbers", 16);
+	glutAddMenuEntry("1000 Numbers", 17);
 
 	int s2 = glutCreateMenu(menuFunc);
-	glutAddMenuEntry("BubbleSort", 21);
-	glutAddMenuEntry("MergeSort", 22);
-	glutAddMenuEntry("QuickSort", 23);
-	glutAddMenuEntry("SelectionSort", 24);
+	glutAddMenuEntry("10", 21);
+	glutAddMenuEntry("20", 22);
+	glutAddMenuEntry("50", 23);
+	glutAddMenuEntry("100", 24);
+	glutAddMenuEntry("500", 25);
 
 	int s3 = glutCreateMenu(menuFunc);
-	glutAddMenuEntry("10", 31);
-	glutAddMenuEntry("20", 32);
-	glutAddMenuEntry("50", 33);
-	glutAddMenuEntry("100", 34);
-	glutAddMenuEntry("500", 35);
+	glutAddMenuEntry("BubbleSort", 31);
+	glutAddMenuEntry("MergeSort", 32);
+	glutAddMenuEntry("QuickSort", 33);
+	glutAddMenuEntry("SelectionSort", 34);
+	glutAddMenuEntry("InsertionSort", 35);
 
 	glutCreateMenu(menuFunc);
 	glutAddSubMenu("Randomize", s1);
-	glutAddSubMenu("Sort", s2);
-	glutAddSubMenu("Speed", s3);
+	glutAddSubMenu("Speed", s2);
+	glutAddSubMenu("Sort", s3);
 	glutAddMenuEntry("Exit", 4);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
