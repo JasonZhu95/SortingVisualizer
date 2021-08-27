@@ -51,7 +51,6 @@ int main(int argc, char** argv)
 
 void init()
 {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
@@ -116,7 +115,7 @@ void generate()
 {
 	isSorted.clear();
 	arrayElements.clear();
-	srand(time(NULL));
+	srand(time(0));
 	for (int i = 0; i < numElements; i++)
 	{
 		arrayElements.push_back(((float)rand() / RAND_MAX) * SCREEN_HEIGHT * 0.8);
@@ -164,13 +163,13 @@ void menuFunc(int id)
 		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 		displayTotalTime(diff.count(), "QuickSort");
 	} break;
-		//case 24: {
-		//	auto start = system_clock::now();
-		//	bubbleSort();
-		//	auto stop = system_clock::now();
-		//	auto diff = duration_cast<milliseconds>(stop - start);
-		//	displayTotalTime(diff.count(), "BubbleSort");
-		//} break;
+	case 24: {
+		auto start = std::chrono::system_clock::now();
+		selectionSort();
+		auto stop = std::chrono::system_clock::now();
+		auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+		displayTotalTime(diff.count(), "SelectionSort");
+	} break;
 		//case 25: {
 		//	auto start = system_clock::now();
 		//	bubbleSort();
@@ -200,9 +199,10 @@ void createMenu() {
 	glutAddMenuEntry("BubbleSort", 21);
 	glutAddMenuEntry("MergeSort", 22);
 	glutAddMenuEntry("QuickSort", 23);
+	glutAddMenuEntry("SelectionSort", 24);
 
 	int s3 = glutCreateMenu(menuFunc);
-	glutAddMenuEntry("5", 31);
+	glutAddMenuEntry("10", 31);
 	glutAddMenuEntry("20", 32);
 	glutAddMenuEntry("50", 33);
 	glutAddMenuEntry("100", 34);

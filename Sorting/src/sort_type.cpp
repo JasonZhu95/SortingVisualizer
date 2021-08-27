@@ -36,19 +36,24 @@ void bubbleSort()
 void selectionSort()
 {
 	int i, j, min_index;
-	for (i = 0; i < numElements; i++)
+	for (i = 0; i < numElements - 1; i++)
 	{
 		min_index = i;
-		for (j = 0; j < numElements; j++)
+		for (j = i + 1; j < numElements; j++)
 		{
+			Sleep(sTime);
+			draw(min_index, j);
 			if (arrayElements[j] < arrayElements[min_index])
 			{
 				min_index = j;
 			}
 		}
 		swap(&arrayElements[min_index], &arrayElements[i]);
-
+		isSorted[i] = true;
+		draw(-1, -1);
 	}
+	isSorted[numElements - 1] = true;
+	draw(-1, -1);
 }
 
 void insertionSort()
