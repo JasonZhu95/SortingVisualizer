@@ -13,4 +13,4 @@ Click Image for Youtube Link
 * Selection Sort
 * Legacy OpenGL
 # Dependencies
-* [FREEGLUT](http://freeglut.sourceforge.net/)
+* [FreeGlut](http://freeglut.sourceforge.net/)
