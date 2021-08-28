@@ -1,5 +1,5 @@
 #include <windows.h>
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <string>
 #include <vector>
 #include <chrono>
@@ -18,22 +18,19 @@ int comparisons = 0;
 // Function Prototypes
 // ----------------------------------------------------------------------------
 
-// Render window
 void display();
 void init();
 
-// Render to screen
 void draw(int x, int y);
 void generate();
 
-// Text On Screen
 void displayText(std::string textToDraw, int x, int y);
+void displayTitle(std::string textToDraw, int x, int y);
 void displayInfo();
 
 void menuFunc(int id);
 void createMenu();
 
-// Clear Window
 void clear();
 
 int main(int argc, char** argv)
@@ -70,23 +67,33 @@ void displayText(std::string textToDraw, int x, int y)
 {
 	glRasterPos2f(x, y);
 	for (int i = 0; i < textToDraw.size(); i++)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, textToDraw[i]);
+		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textToDraw[i]);
+}
+
+void displayTitle(std::string textToDraw, int x, int y)
+{
+	glRasterPos2f(x, y);
+	for (int i = 0; i < textToDraw.size(); i++)
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, textToDraw[i]);
 }
 
 void displayInfo()
 {
+	glColor3f(0.0f, 1.0f, 0.0f);
+	std::string title = "Sorting Visualizer";
+	displayTitle(title, SCREEN_WIDTH * .4, 0.85 * SCREEN_HEIGHT);
 	glColor3f(1.0f, 1.0f, 1.0f);
-	std::string s = "Elements = " + std::to_string(numElements);
-	displayText(s, 5, 0.95 * SCREEN_HEIGHT);
-	s = "Time = " + std::to_string(sTime) + " milliseconds/operation";
-	displayText(s, 5, 0.9 * SCREEN_HEIGHT);
+	std::string info = "Values: " + std::to_string(numElements) + "    Delay: " + std::to_string(sTime) + " ms delay";
+	displayText(info, 5, 0.97 * SCREEN_HEIGHT);
 }
 
 void displayTotalTime(int diff, std::string algorithm)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
-	std::string s = "Time taken for " + algorithm + " = " + std::to_string(diff) + " milliseconds";
-	displayText(s, 5, 0.85 * SCREEN_HEIGHT);
+	std::string info = "Sort Algorithm: " + algorithm + "    Comparisons: " + std::to_string(comparisons);
+	displayText(info, 5, 0.93 * SCREEN_HEIGHT);
+	std::string totalTime = "Total Time: " + std::to_string(diff) + " ms";
+	displayText(totalTime, 5, .89 * SCREEN_HEIGHT);
 	glFlush();
 }
 
@@ -115,6 +122,7 @@ void draw(int x, int y)
 
 void generate()
 {
+	comparisons = 0;
 	isSorted.clear();
 	arrayElements.clear();
 	srand(time(0));
@@ -143,8 +151,7 @@ void menuFunc(int id)
 	case 13: numElements = 50; generate(); break;
 	case 14: numElements = 100; generate(); break;
 	case 15: numElements = 200; generate(); break;
-	case 16: numElements = 500; generate(); break;
-	case 17: numElements = 1000; generate(); break;
+	case 16: numElements = 1000; generate(); break;
 
 	case 21: sTime = 10; draw(-1, -1); break;
 	case 22: sTime = 20; draw(-1, -1); break;
@@ -198,8 +205,7 @@ void createMenu() {
 	glutAddMenuEntry("50 Numbers", 13);
 	glutAddMenuEntry("100 Numbers", 14);
 	glutAddMenuEntry("200 Numbers", 15);
-	glutAddMenuEntry("500 Numbers", 16);
-	glutAddMenuEntry("1000 Numbers", 17);
+	glutAddMenuEntry("1000 Numbers", 16);
 
 	int s2 = glutCreateMenu(menuFunc);
 	glutAddMenuEntry("10", 21);
@@ -216,7 +222,7 @@ void createMenu() {
 	glutAddMenuEntry("InsertionSort", 35);
 
 	glutCreateMenu(menuFunc);
-	glutAddSubMenu("Randomize", s1);
+	glutAddSubMenu("Values", s1);
 	glutAddSubMenu("Speed", s2);
 	glutAddSubMenu("Sort", s3);
 	glutAddMenuEntry("Exit", 4);
