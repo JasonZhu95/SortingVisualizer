@@ -23,6 +23,7 @@ void bubbleSort()
 				Sleep(sTime);
 				draw(j, j + 1);
 			}
+			comparisons++;
 		}
 		isSorted[numElements - i - 1] = true;
 		draw(-1, -1);
@@ -47,6 +48,7 @@ void selectionSort()
 				min_index = j;
 			}
 			Sleep(sTime);
+			comparisons++;
 		}
 		swap(&arrayElements[min_index], &arrayElements[i]);
 		isSorted[i] = true;
@@ -68,16 +70,18 @@ void insertionSort()
 		j = i - 1;
 		Sleep(sTime);
 		draw(i, j);
+		comparisons++;
 		while (j >= 0 && arrayElements[j] > key)
 		{
-			draw(j + 1, j);
+			draw(j, j + 1);
 			arrayElements[j + 1] = arrayElements[j];
 			arrayElements[j] = key;
 			Sleep(sTime);
-			draw(j + 1, j);
-			j = j - 1;
+			draw(j, j + 1);
 			isSorted[i] = true;
 			draw(-1, -1);
+			j = j - 1;
+			comparisons++;
 		}
 		isSorted[i] = true;
 		draw(-1, -1);
@@ -87,10 +91,12 @@ void insertionSort()
 int partition(int l, int r)
 {
 	int pivot = arrayElements[r];
+	comparisons++;
 	int i = (l - 1);
 	for (int j = l; j <= r - 1; j++)
 	{
 		draw(i, j);
+		comparisons++;
 		if (arrayElements[j] < pivot)
 		{
 			i++;
@@ -142,18 +148,21 @@ void merge(int l, int m, int r)
 		else
 			arrayElements[k] = R[j++];
 		isSorted[k++] = true;
+		comparisons++;
 		Sleep(sTime);
 		draw(-1, -1);
 	}
 	while (i < leftEnd) {
 		arrayElements[k] = L[i++];
 		isSorted[k++] = true;
+		comparisons++;
 		Sleep(sTime);
 		draw(-1, -1);
 	}
 	while (j < rightStart) {
 		arrayElements[k] = R[j++];
 		isSorted[k++] = true;
+		comparisons++;
 		Sleep(sTime);
 		draw(-1, -1);
 	}

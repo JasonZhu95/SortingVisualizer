@@ -5,13 +5,15 @@
 #include <chrono>
 #include "sort_type.h"
 
-//Global Variables
+// Global Variables
+// ----------------------------------------------------------------------------
 const unsigned int SCREEN_WIDTH = 1024;
 const unsigned int SCREEN_HEIGHT = 768;
 std::vector<float> arrayElements;
 std::vector<bool> isSorted;
 int numElements = 10;
 int sTime = 50;
+int comparisons = 0;
 
 // Function Prototypes
 // ----------------------------------------------------------------------------
@@ -148,7 +150,7 @@ void menuFunc(int id)
 	case 22: sTime = 20; draw(-1, -1); break;
 	case 23: sTime = 50; draw(-1, -1); break;
 	case 24: sTime = 100; draw(-1, -1); break;
-	case 25: sTime = 1000; draw(-1, -1); break;
+	case 25: sTime = 500; draw(-1, -1); break;
 
 	case 31: {
 		auto start = std::chrono::system_clock::now();
